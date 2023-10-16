@@ -1,0 +1,49 @@
+version: '3.8'
+networks:
+  app-network:
+    driver: bridge
+services:
+  app:
+    build:
+      context: ""
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    container_name: programwithgio-new-app
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ../:/var/www
+  nginx:
+    networks:
+      - app-network
+    image: nginx:1.19-alpine
+    container_name: programwithgio-new-nginx
+    restart: always
+    ports:
+      - 8000:80
+    volumes:
+      - ../:/var/www
+      - ./nginx:/etc/nginx/conf.d
+  db:
+    networks:
+      - app-network
+    container_name: programwithgio-new-db
+    image: mysql:8.0
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin:latest
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+    depends_on:
+      - db
+    networks:
+      - app-network
+    ports:
+      - 8001:80
