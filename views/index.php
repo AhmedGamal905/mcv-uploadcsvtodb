@@ -10,7 +10,7 @@
 
 <body>
     <h1>CSV File Upload</h1>
-    <form action="upload.php" method="POST" enctype="multipart/form-data">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
         <input type="file" name="csvFile" accept=".csv">
         <input type="submit" value="Upload">
     </form>
