@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Models\DbModel;
+
 class UploadController
 {
     public function upload()
             {
                 $filePath= STORAGE_PATH . '/' . $_FILES['csvFile']['name'];
-
 
                 move_uploaded_file(
                     $_FILES['csvFile']['tmp_name'],
@@ -30,10 +31,12 @@ class UploadController
                              $csvData[] = $data;
                           }
                       fclose($h);
-                      echo "<pre>";
-                      var_dump($csvData);
-                     echo "</pre>";
                     }
+                    echo "<pre>";
+                    var_dump($csvData);
+                   echo "</pre>";
+                   
+                   
                 
 }
 }

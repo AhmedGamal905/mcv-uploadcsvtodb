@@ -8,6 +8,7 @@ use App\Controllers\HomeController;
 use App\Controllers\UploadController;
 use App\Router;
 
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
@@ -21,6 +22,7 @@ $router = new Router();
 $router
     ->get('/', [HomeController::class, 'index'])
     ->post('/upload', [UploadController::class, 'upload']);
+
 (new App(
     $router,
     ['uri' => $_SERVER['REQUEST_URI'], 'method' => $_SERVER['REQUEST_METHOD']],
