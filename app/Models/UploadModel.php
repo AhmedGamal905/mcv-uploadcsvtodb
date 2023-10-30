@@ -13,10 +13,9 @@ require_once ('../vendor/autoload.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__, '.env');
 
-class DbModel
+class UploadModel
 {
     protected DB $db;
-    
     protected PDO $dbConnection;
 
     public function __construct()
@@ -30,23 +29,24 @@ class DbModel
         );
     }
     
-    public function uploadToDb()
+    public function uploadToDb($csvData)
     {
-        $date = '11/12/2023';
-        $reference = '1515';
-        $description = 'Tr ref 1';
-        $amount = '500';
         $query = 'INSERT INTO transaction (date, reference, description, amount)
         VALUES (:date, :reference, :description, :amount)';
         try {
             $this->dbConnection->beginTransaction();
-            $newInputStmt = $this->dbConnection->prepare($query);
-            $newInputStmt->execute([
-                'date' => $date,
-                'reference' => $reference,
-                'description' => $description,
-                'amount' => $amount,
-            ]);
+            foreach ($csvData as $transaction) {
+                $newInputStmt = $this->dbConnection->prepare($query);
+                $newInputStmt->execute([
+                    'date' => $transaction[0],
+                    'reference' => $transaction[1],
+                    'description' => $transaction[2],
+                    'amount' => $transaction[3],
+                ]);
+            }
+
+            $this->dbConnection->commit();
+
 
         } catch (PDOException $e) {
             if ($this->dbConnection->inTransaction()) {

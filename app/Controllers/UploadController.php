@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Models\DbModel;
+use App\Models\UploadModel;
 
 class UploadController
 {
+    private $uploadModel;
+
+    public function __construct()
+    {
+        $this->uploadModel = new UploadModel();
+    }
     public function upload()
             {
                 $filePath= STORAGE_PATH . '/' . $_FILES['csvFile']['name'];
@@ -32,11 +38,6 @@ class UploadController
                           }
                       fclose($h);
                     }
-                    echo "<pre>";
-                    var_dump($csvData);
-                   echo "</pre>";
-                   
-                   
-                
+                    $this->uploadModel->uploadToDb($csvData);
 }
 }
