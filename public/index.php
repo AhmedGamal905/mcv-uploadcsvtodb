@@ -4,8 +4,10 @@ declare(strict_types = 1);
 
 use App\App;
 use App\Config;
+use App\Controllers\FetchController;
 use App\Controllers\HomeController;
 use App\Controllers\UploadController;
+use App\Models\UploadModel;
 use App\Router;
 
 
@@ -21,7 +23,10 @@ $router = new Router();
 
 $router
     ->get('/', [HomeController::class, 'index'])
-    ->post('/upload', [UploadController::class, 'upload']);
+    ->post('/upload', [UploadController::class, 'upload'])
+    ->get('/successful', [UploadModel::class, 'successful'])
+    ->post('/retrieveData', [FetchController::class, 'retrieveData'])
+    ->get('/transactions', [UploadModel::class, 'transactions']);
 
 (new App(
     $router,

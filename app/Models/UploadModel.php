@@ -6,6 +6,7 @@ namespace App\Models;
 use PDO;
 use PDOException;
 use dotenv;
+use App\View;
 use App\DB;
 use App\App;
 
@@ -46,7 +47,8 @@ class UploadModel
             }
 
             $this->dbConnection->commit();
-
+            
+            header('Location: /successful');
 
         } catch (PDOException $e) {
             if ($this->dbConnection->inTransaction()) {
@@ -54,5 +56,9 @@ class UploadModel
             }
             echo $e->getMessage();
         }
+    }
+    public function successful(): View
+    {
+        return View::make('successful');
     }
 }
