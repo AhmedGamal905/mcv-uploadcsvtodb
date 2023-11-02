@@ -19,37 +19,27 @@ class FetchModel {
     protected DB $db;
     protected PDO $dbConnection;
 
-    private $fetchController;
+
 
     public function __construct()
     {
-        $this->db = App::db();      
-        $this->dbConnection = new PDO(
-            'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_DATABASE'],
-            $_ENV['DB_USER'],
-            $_ENV['DB_PASS'],
-            [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
-        );
-        $this->fetchController = new FetchController();
+        $this->db = App::db();
+        $this->dbConnection = DB::getConnection();
+
     }
 
  
    public function fetchFromDb(){
     try {
-       $query = 'SELECT * FROM transaction';
+        $query = 'SELECT * FROM transaction';
+        $transactions = [];
 
-       foreach ($this->dbConnection->query($query) as $transactions){
-        echo '<pre>';
-        var_dump($transactions);
-        echo '<pre>';
+        foreach ($this->dbConnection->query($query) as $data){
+            $transactions[] = $data;
        }
+       return $transactions;
 
-    //Pass data from here
-    // $this->fetchController->whateverfunction(data);
 } catch (PDOException $e) {
-    if ($this->dbConnection->inTransaction()) {
-        $this->dbConnection->rollBack();
-    }
     echo $e->getMessage();
 }
     }

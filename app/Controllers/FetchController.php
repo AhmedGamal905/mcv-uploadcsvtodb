@@ -14,18 +14,14 @@ class FetchController {
     }
 
     public function fetch() {
-        $this->fetchModel->fetchFromDb();
-        
-    }
-
-    public function retrieveData($transactions){
-      echo('<pre>');
-      var_dump($transactions);
-      echo('<pre>');
+        $transactions = $this->fetchModel->fetchFromDb();
+        echo('<Pre>');
+        var_dump($transactions);
+        echo('<Pre>');
     }
 
 //header('Location: /transactions');
-    public function transactions(): View
+    public function transactions(array $transactions): View
     {
         return View::make('transactions');
     }
