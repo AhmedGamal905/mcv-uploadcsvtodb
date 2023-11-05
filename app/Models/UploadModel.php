@@ -34,11 +34,12 @@ class UploadModel
             $this->dbConnection->beginTransaction();
             foreach ($csvData as $transaction) {
                 $newInputStmt = $this->dbConnection->prepare($query);
+                $amount = str_replace(["$",","],"",$transaction[3]);
                 $newInputStmt->execute([
                     'date' => $transaction[0],
                     'reference' => $transaction[1],
                     'description' => $transaction[2],
-                    'amount' => $transaction[3],
+                    'amount' => $amount,
                 ]);
             }
 

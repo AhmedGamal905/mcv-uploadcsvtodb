@@ -6,10 +6,8 @@ namespace App\Models;
 use PDO;
 use PDOException;
 use dotenv;
-use App\View;
 use App\DB;
 use App\App;
-use App\Controllers\FetchController;
 
 require_once ('../vendor/autoload.php');
 
@@ -18,9 +16,6 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__, '.env');
 class FetchModel {
     protected DB $db;
     protected PDO $dbConnection;
-
-
-
     public function __construct()
     {
         $this->db = App::db();
@@ -28,16 +23,15 @@ class FetchModel {
 
     }
 
- 
    public function fetchFromDb(){
     try {
         $query = 'SELECT * FROM transaction';
-        $transactions = [];
+        $transactionArray = [];
 
-        foreach ($this->dbConnection->query($query) as $data){
-            $transactions[] = $data;
+        foreach ($this->dbConnection->query($query) as $transactions){
+            $transactionArray[] = $transactions;
        }
-       return $transactions;
+       return $transactionArray;
 
 } catch (PDOException $e) {
     echo $e->getMessage();

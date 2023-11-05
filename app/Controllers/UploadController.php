@@ -33,11 +33,14 @@ class UploadController
                 $fileName = reset($filteredFiles);
                 $csvData = [];
                 if (($h = fopen(STORAGE_PATH . '/' . $fileName, "r")) !== false) {
+                    fgetcsv($h, 1000, ",");
+                    
                     while (($data = fgetcsv($h, 1000, ",")) !== false) {
-                             $csvData[] = $data;
-                          }
-                      fclose($h);
+                        $csvData[] = $data;
                     }
+                    
+                    fclose($h);
+                }
                     $this->uploadModel->uploadToDb($csvData);
 }
 }

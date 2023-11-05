@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use App\App;
 use App\Config;
+use App\Router;
 use App\Controllers\FetchController;
 use App\Controllers\HomeController;
 use App\Controllers\UploadController;
-use App\Models\FetchModel;
 use App\Models\UploadModel;
-use App\Router;
-
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
